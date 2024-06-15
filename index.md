@@ -1,5 +1,3 @@
-# 欢迎来到我的 GitHub Pages
-
 <style>
   body {
     font-family: 'Arial', sans-serif;
@@ -79,11 +77,9 @@
 <div class="container">
   <h1>欢迎来到我的 GitHub Pages</h1>
 
-  <p>这里是我的主页。</p>
-
   <ul class="nav-list">
-    <li><a href="k8s.md">Kubernetes笔记</a></li>
-    <li><a href="docker.md">Docker笔记</a></li>
+    - [Kubernetes笔记](k8s.md)
+    - [Docker笔记](docker.md)
   </ul>
 
   <div class="about">
@@ -100,6 +96,6 @@
   </div>
 
   <div class="footer">
-    <p>&copy; 2024 你的名字. 保留所有权利.</p>
+    <p>&copy; 2024 tiaohe.github.io 版权所有，保留所有权利.</p>
   </div>
 </div>
