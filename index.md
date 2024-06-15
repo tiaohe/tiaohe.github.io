@@ -78,8 +78,8 @@
   <h1>欢迎来到我的 GitHub Pages</h1>
 
   <ul class="nav-list">
-    - [Kubernetes笔记](k8s.md)
-    - [Docker笔记](docker.md)
+    <li><a href="k8s.md">Kubernetes 笔记</a></li>
+    <li><a href="docker.md">Docker 笔记</a></li>
   </ul>
 
   <div class="about">
