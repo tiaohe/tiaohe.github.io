@@ -2,7 +2,7 @@
 
 ### 集群信息：
 
-```yaml
+```
 1. 显示 Kubernetes 版本：kubectl version
 2. 显示集群信息：kubectl cluster-info
 3. 列出集群中的所有节点：kubectl get nodes
