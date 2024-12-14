@@ -6,4 +6,4 @@
 
 - [Kubernetes笔记](k8s.md)
 - [Docker笔记](docker.md)
-- [SharedMethodExample](SharedMethodExample.java)
+- [SharedMethodExample](SharedMethodExample.md)
