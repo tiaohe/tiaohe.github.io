@@ -14,4 +14,4 @@
   本文档展示了一些共享方法的示例，帮助理解如何在代码中实现共享方法与复用。
 ---
 
-感谢您访问，欢迎提出宝贵意见！你可以随时通过 [GitHub Issues](https://github.com/tiaohe.github.io/issues) 提交反馈。
+感谢您访问，欢迎提出宝贵意见！你可以随时通过 [GitHub Issues](https://github.com/tiaohe/tiaohe.github.io/issues) 提交反馈。
