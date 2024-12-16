@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * 这里演示了如何提取 "名称" 的通用逻辑，避免为每个类重复编写方法。
  */
-public class SharedMethodExample {
+public class TestMethod {
 
     /**
      * 示例类：Person，表示一个人。
@@ -37,20 +37,17 @@ public class SharedMethodExample {
 
     /**
      * 通用方法：获取列表中的名称。
-     *
      * 使用泛型和函数式接口，将提取 "名称" 的逻辑抽象化。
      * 这样可以兼容任何类，只需传入一个提取方法即可。
      *
-     * @param nameList     名称列表（泛型列表）
+     * @param nameList      名称列表（泛型列表）
      * @param nameExtractor 提取名称的函数式接口
-     * @param <T>          列表元素的类型（如 Person、Animal 等）
+     * @param <T>           列表元素的类型（如 Person、Animal 等）
+     * @param <R>           提取出的名称的类型（如 String 等）
      * @return 转化后的名称列表
      */
-    public static <T> List<String> getName(List<T> nameList, Function<T, String> nameExtractor) {
-        // 使用 Stream 和 Lambda 表达式简化逻辑
-        return nameList.stream()
-                .map(nameExtractor) // 应用传入的名称提取逻辑
-                .collect(Collectors.toList()); // 收集到列表中
+    public static <T, R> List<R> getName(List<T> nameList, Function<T, R> nameExtractor) {
+        return nameList.stream().map(nameExtractor).collect(Collectors.toList());
     }
 
     /**
