@@ -289,4 +289,4 @@
 1. **列出节点污点**
    ```bash
    kubectl describe node <node-name> | grep Taints
-   
+   ```
