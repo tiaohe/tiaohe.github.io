@@ -1,3 +1,4 @@
+```java
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -94,3 +95,4 @@ public class TestMethod {
         getName(animalList, Animal::getAnimalName).forEach(System.out::println); // 输出：狗，猫
     }
 }
+```
