@@ -1,6 +1,6 @@
 # 欢迎来到我的 GitHub Pages
 
-欢迎访问我的技术文档页面！这里汇聚了与 Kubernetes、Docker 等技术相关的学习资源与示例，旨在帮助开发者更高效地掌握这些工具。
+欢迎访问我的技术文档页面！
 
 ## 导航
 
@@ -12,6 +12,9 @@
 
 - **[SharedMethodExample](SharedMethodExample.md)**  
   本文档展示了一些共享方法的示例，帮助理解如何在代码中实现共享方法与复用。
+---
+- **[fourFunction](fourFunction.md)**  
+  四个函数的定义及其作用。
 ---
 
 感谢您访问，欢迎提出宝贵意见！你可以随时通过 [GitHub Issues](https://github.com/tiaohe/tiaohe.github.io/issues) 提交反馈。
