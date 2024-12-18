@@ -14,7 +14,7 @@
   本文档展示了一些共享方法的示例，帮助理解如何在代码中实现共享方法与复用。
 ---
 - **[fourFunction](fourFunction.md)**  
-  四个函数的定义及其作用。
+  四大函数式接口的定义及使用场景。
 ---
 
 感谢您访问，欢迎提出宝贵意见！你可以随时通过 [GitHub Issues](https://github.com/tiaohe/tiaohe.github.io/issues) 提交反馈。
