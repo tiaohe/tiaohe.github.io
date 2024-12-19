@@ -1,6 +1,6 @@
-# 四大函数式接口和泛型的高级使用
+# 四大函数式接口与泛型的高级使用
 
-Java 的函数式编程依赖于四大函数式接口：`Consumer`、`Supplier`、`Function` 和 `Predicate`。结合泛型和方法引用，它们在现代 Java 编程中发挥了重要作用。本指南深入探讨其高级用法。
+Java 函数式编程提供了强大的工具，尤其是在处理函数式接口时，`Consumer`、`Supplier`、`Function` 和 `Predicate` 是四大核心接口。这些接口结合泛型和方法引用，使 Java 代码更加简洁高效。本篇文档将深入探讨四大函数式接口的使用方式及其与泛型结合的高级应用。
 
 ---
 
@@ -8,100 +8,152 @@ Java 的函数式编程依赖于四大函数式接口：`Consumer`、`Supplier`�
 
 ### 1.1 `Consumer<T>`
 
-- **功能**：接受一个参数，不返回结果。
-- **主要方法**：`void accept(T t)`。
-- **应用场景**：用于对某个对象进行操作但不需要返回值，例如打印或更新操作。
+`Consumer` 接口接收一个输入参数并对其进行操作，不返回任何结果。它适合用于打印、日志记录或修改对象的操作。
+
+- **功能**：接受一个参数，无返回值。
+- **方法**：`void accept(T t)`
+- **应用场景**：打印、更新、日志记录。
 
 ```java
 Consumer<String> printer = System.out::println;
 printer.accept("Hello, World!");
 ```
 
-**高级用法**：
+#### 高级用法
 
-链式调用：使用 `andThen` 组合多个 `Consumer`。
+1. **链式调用**：通过 `andThen` 方法将多个 `Consumer` 组合。
 
 ```java
 Consumer<String> printer = System.out::println;
 Consumer<String> logger = s -> System.out.println("Logging: " + s);
 Consumer<String> combined = printer.andThen(logger);
 combined.accept("Test");
+// 输出：
+// Test
+// Logging: Test
+```
+
+2. **作用于集合**：对列表中的每个元素执行操作。
+
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+names.forEach(System.out::println);
+// 输出：
+// Alice
+// Bob
+// Charlie
 ```
 
 ---
 
 ### 1.2 `Supplier<T>`
 
-- **功能**：不接受参数，返回一个结果。
-- **主要方法**：`T get()`。
-- **应用场景**：用于延迟计算或对象创建。
+`Supplier` 接口不接受任何参数，返回一个结果。它通常用于延迟计算或对象的懒加载。
+
+- **功能**：无输入参数，返回结果。
+- **方法**：`T get()`
+- **应用场景**：延迟加载、默认值提供。
 
 ```java
 Supplier<Double> randomSupplier = Math::random;
-System.out.println(randomSupplier.get());
-Supplier<Stream<String>> streamSupplier = () -> Stream.of("A", "B", "C");
-Stream<String> stream1 = streamSupplier.get();
+System.out.println(randomSupplier.get());  // 输出一个随机数
 ```
 
-**高级用法**：
+#### 高级用法
 
-结合 `Optional` 提供默认值。
+1. **结合 Optional 提供默认值**：
 
 ```java
 Supplier<String> defaultSupplier = () -> "Default Value";
 Optional<String> optional = Optional.ofNullable(null);
 System.out.println(optional.orElseGet(defaultSupplier));
+// 输出：Default Value
+```
+
+2. **作用于资源初始化**：
+
+```java
+Supplier<List<String>> lazyList = () -> Arrays.asList("A", "B", "C");
+System.out.println(lazyList.get());
+// 输出：[A, B, C]
 ```
 
 ---
 
 ### 1.3 `Function<T, R>`
 
+`Function` 接口接收一个输入并返回一个输出，常用于数据转换或值映射。
+
 - **功能**：接受一个参数，返回一个结果。
-- **主要方法**：`R apply(T t)`。
-- **应用场景**：用于数据转换或映射。
+- **方法**：`R apply(T t)`
+- **应用场景**：数据转换、值映射。
 
 ```java
 Function<Integer, String> intToString = Object::toString;
-System.out.println(intToString.apply(42));
+System.out.println(intToString.apply(42)); // 输出：42
 ```
 
-**高级用法**：
+#### 高级用法
 
-链式调用：使用 `andThen` 或 `compose`。
+1. **链式调用**：通过 `andThen` 和 `compose` 方法组合多个 `Function`。
 
 ```java
 Function<Integer, Integer> square = x -> x * x;
 Function<Integer, String> toString = Object::toString;
 Function<Integer, String> combined = square.andThen(toString);
-System.out.println(combined.apply(4));
+System.out.println(combined.apply(4)); // 输出：16
+```
+
+2. **复杂数据流处理**：
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3);
+List<String> results = numbers.stream()
+                              .map(x -> x * x)
+                              .map(Object::toString)
+                              .collect(Collectors.toList());
+System.out.println(results);  // 输出：[1, 4, 9]
 ```
 
 ---
 
 ### 1.4 `Predicate<T>`
 
+`Predicate` 接口用于条件判断，返回布尔值。它常用于过滤或验证操作。
+
 - **功能**：接受一个参数，返回布尔值。
-- **主要方法**：`boolean test(T t)`。
-- **应用场景**：用于条件判断。
+- **方法**：`boolean test(T t)`
+- **应用场景**：条件判断、过滤。
 
 ```java
 Predicate<String> isNotEmpty = s -> s != null && !s.isEmpty();
 System.out.println(isNotEmpty.test("Hello")); // true
 ```
 
-**高级用法**：
+#### 高级用法
 
-组合判断
+1. **条件组合**：通过 `and`、`or` 和 `negate` 方法组合多个 `Predicate`。
 
 ```java
 Predicate<String> isShort = s -> s.length() < 5;
 Predicate<String> startsWithA = s -> s.startsWith("A");
-Predicate<String> combined = isShort.and(startsWithA);
-System.out.println(isShort.or(startsWithA).test("Apple")); // true
-System.out.println(isShort.and(startsWithA).test("Apple")); // false
-System.out.println(isShort.negate().test("Apple")); // true
-System.out.println(combined.test("Apple")); // false
+
+System.out.println(isShort.and(startsWithA).test("Apple"));  // false
+System.out.println(isShort.or(startsWithA).test("Apple"));   // true
+System.out.println(isShort.negate().test("Apple"));          // true
+```
+
+2. **过滤集合**：
+
+```java
+List<String> names = Arrays.asList("Alice", "Bob", "", "Charlie");
+names.stream()
+     .filter(s -> !s.isEmpty())
+     .forEach(System.out::println);
+// 输出：
+// Alice
+// Bob
+// Charlie
 ```
 
 ---
@@ -110,7 +162,7 @@ System.out.println(combined.test("Apple")); // false
 
 ### 2.1 泛型方法定义
 
-通过泛型方法定义函数式接口的灵活使用。
+通过泛型方法，可以定义通用的逻辑操作，从而使代码更加灵活和可重用。
 
 ```java
 public static <T> void process(T value, Consumer<T> action) {
@@ -118,11 +170,12 @@ public static <T> void process(T value, Consumer<T> action) {
 }
 
 process("Generic", System.out::println);
+// 输出：Generic
 ```
 
 ### 2.2 泛型类型约束
 
-限定泛型类型以提高类型安全性。
+通过限定泛型类型的边界，确保类型安全。
 
 ```java
 public static <T extends Number> T add(T a, T b, Function<T, T> adder) {
@@ -130,26 +183,24 @@ public static <T extends Number> T add(T a, T b, Function<T, T> adder) {
 }
 
 Function<Integer, Integer> increment = x -> x + 1;
-System.out.println(add(1, 2, increment));
+System.out.println(add(1, 2, increment));  // 输出：3
 ```
 
 ### 2.3 泛型与方法引用
 
-使用泛型时，可以结合方法引用简化代码。
+结合方法引用，可以进一步简化泛型方法的实现。
 
 ```java
 public static <T> T getDefault(Supplier<T> supplier) {
     return supplier.get();
 }
 
-System.out.println(getDefault(() -> "Hello"));
+System.out.println(getDefault(() -> "Hello"));  // 输出：Hello
 ```
 
----
+### 2.4 提取通用逻辑避免重复代码
 
-### 2.4 示例：提取通用逻辑避免重复代码
-
-使用泛型和函数式接口提取共用逻辑，避免重复实现类似的方法。
+通过泛型方法和函数式接口的结合，可以有效减少重复代码，提高代码复用性。
 
 ```java
 public class TestMethod {
@@ -180,19 +231,18 @@ public class TestMethod {
 }
 ```
 
-此示例展示如何通过泛型方法 `getName` 提取共性逻辑，减少重复代码，提高代码复用性。
-
 ---
 
 ## 3. 高级应用场景
 
 ### 3.1 延迟初始化
 
-使用 `Supplier` 进行延迟计算或资源加载。
+通过 `Supplier` 进行延迟计算或资源加载。
 
 ```java
 Supplier<List<String>> lazyList = () -> Arrays.asList("A", "B", "C");
 System.out.println(lazyList.get());
+// 输出：[A, B, C]
 ```
 
 ### 3.2 数据处理流水线
@@ -205,6 +255,10 @@ names.stream()
      .filter(s -> !s.isEmpty())
      .map(String::toUpperCase)
      .forEach(System.out::println);
+// 输出：
+// ALICE
+// BOB
+// CHARLIE
 ```
 
 ### 3.3 动态策略模式
@@ -218,27 +272,25 @@ public static <T> T execute(T input, Function<T, T> strategy) {
 
 Function<Integer, Integer> doubleIt = x -> x * 2;
 System.out.println(execute(5, doubleIt));
+// 输出：10
 ```
 
 ### 3.4 灵活的数据映射
 
-使用泛型和 `Function` 实现灵活的数据映射。
+通过泛型和 `Function` 实现灵活的数据映射。
 
 ```java
-public static <T, R> List<R> mapList(List<T> inputList, Function<T, R> mapper) {
-    return inputList.stream().map(mapper).collect(Collectors.toList());
+public static <T, R> List<R> map(List<T> list, Function<T, R> mapper) {
+    return list.stream().map(mapper).collect(Collectors.toList());
 }
 
 List<Integer> numbers = Arrays.asList(1, 2, 3);
-List<String> strings = mapList(numbers, Object::toString);
+List<String> strings = map(numbers, Object::toString);
 System.out.println(strings);
+// 输出：["1", "2", "3"]
 ```
 
 ---
 
-## 4. 注意事项
-
-- **函数组合可能导致调试困难**：注意分解复杂链式调用。
-- **避免滥用**：函数式接口适合简化代码，但复杂逻辑可能更适合传统方式。
-- **泛型需要边界约束**：在泛型方法中使用时，确保对泛型类型的边界有清晰定义。
+这份文档详细介绍了四大函数式接口及其结合泛型的高级用法，涵盖从基础到高级的使用场景，帮助开发者更高效地利用 Java 的函数式编程能力。
 
